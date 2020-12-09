@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DotnetCoreNLayer.API.DTO.Category;
+using DotnetCoreNLayer.API.DTO.Person;
 using DotnetCoreNLayer.API.DTO.Product;
 using DotnetCoreNLayer.Core.Models;
 using System;
@@ -13,15 +14,21 @@ namespace DotnetCoreNLayer.API.Mapping
     {
         public MapProfile()
         {
+            //Category Entity
             CreateMap<Category, CategoryDto>();
             CreateMap<CategoryDto, Category>();
             CreateMap<Category, CategoryWithProductDto>();
             CreateMap<CategoryWithProductDto, Category>();
-
+            
+            //Product Entity
             CreateMap<Product, ProductDto>();
             CreateMap<ProductDto, Product>();
             CreateMap<Product, ProductWithCategoryDto>();
             CreateMap<ProductWithCategoryDto, Product>();
+
+            //Person Entity
+            CreateMap<Person, PersonDto>();
+            CreateMap<PersonDto, Person>();
         }
     }
 }
