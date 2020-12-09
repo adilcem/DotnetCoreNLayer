@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DotnetCoreNLayer.API.DTO.Category;
+using DotnetCoreNLayer.API.DTO.Product;
 using DotnetCoreNLayer.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,11 @@ namespace DotnetCoreNLayer.API.Mapping
         {
             CreateMap<Category, CategoryDto>();
             CreateMap<CategoryDto, Category>();
+            CreateMap<Category, CategoryWithProductDto>();
+            CreateMap<CategoryWithProductDto, Category>();
+
+            CreateMap<Product, ProductDto>();
+            CreateMap<ProductDto, Product>();
         }
     }
 }
