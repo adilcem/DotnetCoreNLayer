@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DotnetCoreNLayer.API.DTO.Product;
+using DotnetCoreNLayer.API.Filters;
 using DotnetCoreNLayer.Core.Models;
 using DotnetCoreNLayer.Core.Services;
 using Microsoft.AspNetCore.Http;
@@ -48,6 +49,7 @@ namespace DotnetCoreNLayer.API.Controllers
             return Ok(_mapper.Map<ProductWithCategoryDto>(product));
         }
 
+        [ValidationFilter]
         [HttpPost]
         public async Task<IActionResult> Save(ProductDto productDto)
         {

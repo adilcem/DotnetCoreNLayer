@@ -57,6 +57,12 @@ namespace DotnetCoreNLayer.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DotnetCoreNLayer.API", Version = "v1" });
             });
+
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                // ModelState invalid filters will be controlled manually.
+                options.SuppressModelStateInvalidFilter = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
