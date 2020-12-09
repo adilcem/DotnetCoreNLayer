@@ -15,6 +15,7 @@ namespace DotnetCoreNLayer.Data
         }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Person> Persons { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //base.OnModelCreating(modelBuilder);
@@ -23,6 +24,8 @@ namespace DotnetCoreNLayer.Data
 
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
             modelBuilder.ApplyConfiguration(new CategorySeed(new int[] { 1, 2 }));
+
+            modelBuilder.ApplyConfiguration(new ProductConfiguration());
         }
     }
 }
