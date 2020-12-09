@@ -1,3 +1,4 @@
+using AutoMapper;
 using DotnetCoreNLayer.Core.Repositories;
 using DotnetCoreNLayer.Core.Services;
 using DotnetCoreNLayer.Core.UnitOfWork;
@@ -34,6 +35,9 @@ namespace DotnetCoreNLayer.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Converts models to DTO
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlServer(Configuration["ConnectionStrings:DevelopmentConnection"].ToString(),
