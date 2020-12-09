@@ -1,6 +1,10 @@
+using DotnetCoreNLayer.Core.Repositories;
+using DotnetCoreNLayer.Core.Services;
 using DotnetCoreNLayer.Core.UnitOfWork;
 using DotnetCoreNLayer.Data;
+using DotnetCoreNLayer.Data.Repositories;
 using DotnetCoreNLayer.Data.UnitOfWorks;
+using DotnetCoreNLayer.Service.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -37,7 +41,12 @@ namespace DotnetCoreNLayer.API
                         o.MigrationsAssembly("DotnetCoreNLayer.Data");
                     });
             });
+
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped(typeof(IService<>), typeof(Service<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IProductService, ProductService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
