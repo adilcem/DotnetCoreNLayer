@@ -1,4 +1,7 @@
 using AutoMapper;
+using DotnetCoreNLayer.API.DTO.Error;
+using DotnetCoreNLayer.API.Extensions;
+using DotnetCoreNLayer.API.Filters;
 using DotnetCoreNLayer.Core.Repositories;
 using DotnetCoreNLayer.Core.Services;
 using DotnetCoreNLayer.Core.UnitOfWork;
@@ -7,7 +10,9 @@ using DotnetCoreNLayer.Data.Repositories;
 using DotnetCoreNLayer.Data.UnitOfWorks;
 using DotnetCoreNLayer.Service.Services;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +21,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,7 +43,7 @@ namespace DotnetCoreNLayer.API
         {
             // Converts models to DTO
             services.AddAutoMapper(typeof(Startup));
-
+            
             services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlServer(Configuration["ConnectionStrings:DevelopmentConnection"].ToString(),
@@ -51,16 +57,24 @@ namespace DotnetCoreNLayer.API
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<ProductNotFoundFilter>();
 
             services.AddControllers();
+            // Validation filters can be used globally with the code below
+
+            //services.AddControllers(options =>
+            //{
+            //    options.Filters.Add(new ValidationFilter());
+            //}); 
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DotnetCoreNLayer.API", Version = "v1" });
             });
 
+            // ModelState invalid filters will be controlled manually.
             services.Configure<ApiBehaviorOptions>(options =>
-            {
-                // ModelState invalid filters will be controlled manually.
+            {                
                 options.SuppressModelStateInvalidFilter = true;
             });
         }
@@ -74,6 +88,9 @@ namespace DotnetCoreNLayer.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DotnetCoreNLayer.API v1"));
             }
+
+            // Used custom extion method
+            app.UseCustomException();
 
             app.UseHttpsRedirection();
 

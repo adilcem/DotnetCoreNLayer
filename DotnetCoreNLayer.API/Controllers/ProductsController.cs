@@ -27,12 +27,13 @@ namespace DotnetCoreNLayer.API.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
-        {
+        {            
             var products = await _productService.GetAllAsync();
 
             return Ok(_mapper.Map<IEnumerable<ProductDto>>(products));
         }
 
+        [ServiceFilter(typeof(ProductNotFoundFilter))]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -41,6 +42,7 @@ namespace DotnetCoreNLayer.API.Controllers
             return Ok(_mapper.Map<ProductDto>(product));
         }
 
+        [ServiceFilter(typeof(ProductNotFoundFilter))]
         [HttpGet("{id}/category")]
         public async Task<IActionResult> GetWithCategoryById(int id)
         {
@@ -66,6 +68,7 @@ namespace DotnetCoreNLayer.API.Controllers
             return NoContent();
         }
 
+        [ServiceFilter(typeof(ProductNotFoundFilter))]
         [HttpDelete]
         public IActionResult Remove(int id)
         {
