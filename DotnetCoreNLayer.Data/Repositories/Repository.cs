@@ -1,4 +1,5 @@
-﻿using DotnetCoreNLayer.Core.Repositories;
+﻿using DotnetCoreNLayer.Core.Models;
+using DotnetCoreNLayer.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DotnetCoreNLayer.Data.Repositories
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseClass
     {
         protected readonly DbContext _context;
         private readonly DbSet<TEntity> _dbSet;
@@ -39,7 +40,7 @@ namespace DotnetCoreNLayer.Data.Repositories
             return await _dbSet.ToListAsync();
         }
 
-        public async Task<TEntity> GetByIdAsync(int id)
+        public async Task<TEntity> GetByIdAsync(long id)
         {
             return await _dbSet.FindAsync(id);
         }

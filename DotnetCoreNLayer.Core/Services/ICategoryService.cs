@@ -9,6 +9,6 @@ namespace DotnetCoreNLayer.Core.Services
     public interface ICategoryService : IService<Category>
     {
         // Methods for Category entity
-        Task<Category> GetWithProductsByIdAsync(int categoryId);        
+        Task<Category> GetWithProductsByIdAsync(long categoryId);        
     }
 }

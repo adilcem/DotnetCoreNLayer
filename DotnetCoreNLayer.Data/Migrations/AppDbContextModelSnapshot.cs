@@ -20,9 +20,9 @@ namespace DotnetCoreNLayer.Data.Migrations
 
             modelBuilder.Entity("DotnetCoreNLayer.Core.Models.Category", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("bigint")
                         .UseIdentityColumn();
 
                     b.Property<bool>("IsDeleted")
@@ -40,13 +40,13 @@ namespace DotnetCoreNLayer.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = 1L,
                             IsDeleted = false,
                             Name = "Pen"
                         },
                         new
                         {
-                            Id = 2,
+                            Id = 2L,
                             IsDeleted = false,
                             Name = "Books"
                         });
@@ -54,10 +54,13 @@ namespace DotnetCoreNLayer.Data.Migrations
 
             modelBuilder.Entity("DotnetCoreNLayer.Core.Models.Person", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("bigint")
                         .UseIdentityColumn();
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -72,13 +75,13 @@ namespace DotnetCoreNLayer.Data.Migrations
 
             modelBuilder.Entity("DotnetCoreNLayer.Core.Models.Product", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("bigint")
                         .UseIdentityColumn();
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                    b.Property<long>("CategoryId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("InnerBarcode")
                         .HasMaxLength(50)
@@ -107,8 +110,8 @@ namespace DotnetCoreNLayer.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            CategoryId = 1,
+                            Id = 1L,
+                            CategoryId = 1L,
                             IsDeleted = false,
                             Name = "Pen",
                             Price = 12m,
@@ -116,8 +119,8 @@ namespace DotnetCoreNLayer.Data.Migrations
                         },
                         new
                         {
-                            Id = 2,
-                            CategoryId = 1,
+                            Id = 2L,
+                            CategoryId = 1L,
                             IsDeleted = false,
                             Name = "Pencil",
                             Price = 20.50m,
@@ -125,8 +128,8 @@ namespace DotnetCoreNLayer.Data.Migrations
                         },
                         new
                         {
-                            Id = 3,
-                            CategoryId = 1,
+                            Id = 3L,
+                            CategoryId = 1L,
                             IsDeleted = false,
                             Name = "Marker",
                             Price = 25.40m,
@@ -134,8 +137,8 @@ namespace DotnetCoreNLayer.Data.Migrations
                         },
                         new
                         {
-                            Id = 4,
-                            CategoryId = 2,
+                            Id = 4L,
+                            CategoryId = 2L,
                             IsDeleted = false,
                             Name = "Small Size Notebook",
                             Price = 50.50m,
@@ -143,8 +146,8 @@ namespace DotnetCoreNLayer.Data.Migrations
                         },
                         new
                         {
-                            Id = 5,
-                            CategoryId = 2,
+                            Id = 5L,
+                            CategoryId = 2L,
                             IsDeleted = false,
                             Name = "Medium Size Notebook",
                             Price = 60.40m,
@@ -152,8 +155,8 @@ namespace DotnetCoreNLayer.Data.Migrations
                         },
                         new
                         {
-                            Id = 6,
-                            CategoryId = 2,
+                            Id = 6L,
+                            CategoryId = 2L,
                             IsDeleted = false,
                             Name = "Big Size Notebook",
                             Price = 70.90m,

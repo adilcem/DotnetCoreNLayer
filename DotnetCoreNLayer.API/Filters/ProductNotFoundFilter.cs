@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace DotnetCoreNLayer.API.Filters
@@ -22,9 +23,20 @@ namespace DotnetCoreNLayer.API.Filters
 
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            int id = (int)context.ActionArguments.Values.FirstOrDefault();
+            // parameterValue is value of parameter which is passed to the action. For action: GetById(long id), it will be value of id (Ex. 5)
+            // For action: Update(UpdateProductDto updateProductDto), it will be value(object) of updateProductDto class
+            var parameterValue = context.ActionArguments.Values.FirstOrDefault();
 
-            var product = await _productService.GetByIdAsync(id);
+            // Get properties of parameterValue to see if it is Id, or an object
+            Type dataType = parameterValue.GetType();
+            IList<PropertyInfo> props = new List<PropertyInfo>(dataType.GetProperties());
+
+            // If parameterValue is an object, find Id column in that object and get its value. Otherwise Id will be parameterValue
+            long Id = props.Count > 0 
+                ? (long)props.Where(p => p.Name == "Id").FirstOrDefault().GetValue(parameterValue, null)
+                : (long)parameterValue;
+
+            var product = await _productService.GetByIdAsync(Id);
 
             if (!(product is null))
             {
@@ -36,7 +48,7 @@ namespace DotnetCoreNLayer.API.Filters
                 ErrorDto errorDto = new ErrorDto();
 
                 errorDto.Status = 404;
-                errorDto.Errors.Add($"Cannot find the product with Id: {id} ");
+                errorDto.Errors.Add($"Cannot find the product with Id: {Id} ");
 
                 context.Result = new NotFoundObjectResult(errorDto);
             }

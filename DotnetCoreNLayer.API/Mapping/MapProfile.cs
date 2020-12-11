@@ -23,6 +23,8 @@ namespace DotnetCoreNLayer.API.Mapping
             //Product Entity
             CreateMap<Product, ProductDto>();
             CreateMap<ProductDto, Product>();
+            CreateMap<Product, UpdateProductDto>();
+            CreateMap<UpdateProductDto, Product>();
             CreateMap<Product, ProductWithCategoryDto>();
             CreateMap<ProductWithCategoryDto, Product>();
 

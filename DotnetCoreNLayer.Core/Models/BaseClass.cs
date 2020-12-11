@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace DotnetCoreNLayer.Core.Models
 {
-    public class Person : BaseClass
+    public abstract class BaseClass
     {
-        public string Name { get; set; }
-        public string Surname { get; set; }
+        public long Id { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

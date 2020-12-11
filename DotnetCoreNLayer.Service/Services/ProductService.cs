@@ -16,7 +16,7 @@ namespace DotnetCoreNLayer.Service.Services
         {
         }
 
-        public async Task<Product> GetWithCategoryByIdAsync(int productId)
+        public async Task<Product> GetWithCategoryByIdAsync(long productId)
         {
             return await _unitOfWork.Products.GetWithCategoryByIdAsync(productId);
         }

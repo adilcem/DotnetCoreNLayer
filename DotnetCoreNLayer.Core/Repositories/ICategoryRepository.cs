@@ -8,6 +8,6 @@ namespace DotnetCoreNLayer.Core.Repositories
 {
     public interface ICategoryRepository : IRepository<Category>
     {
-        Task<Category> GetWithProductsByIdAsync(int categoryId);
+        Task<Category> GetWithProductsByIdAsync(long categoryId);
     }
 }

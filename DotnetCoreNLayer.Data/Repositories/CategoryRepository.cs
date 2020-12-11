@@ -15,7 +15,7 @@ namespace DotnetCoreNLayer.Data.Repositories
         {
         }
 
-        public async Task<Category> GetWithProductsByIdAsync(int categoryId)
+        public async Task<Category> GetWithProductsByIdAsync(long categoryId)
         {
             return await _appDbContext.Categories.Include(x => x.Products).SingleOrDefaultAsync(x => x.Id == categoryId);
         }

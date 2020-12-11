@@ -35,7 +35,7 @@ namespace DotnetCoreNLayer.API.Controllers
 
         [ServiceFilter(typeof(ProductNotFoundFilter))]
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById(long id)
         {
             var product = await _productService.GetByIdAsync(id);
 
@@ -44,7 +44,7 @@ namespace DotnetCoreNLayer.API.Controllers
 
         [ServiceFilter(typeof(ProductNotFoundFilter))]
         [HttpGet("{id}/category")]
-        public async Task<IActionResult> GetWithCategoryById(int id)
+        public async Task<IActionResult> GetWithCategoryById(long id)
         {
             var product = await _productService.GetWithCategoryByIdAsync(id);
 
@@ -60,17 +60,19 @@ namespace DotnetCoreNLayer.API.Controllers
             return Created(string.Empty, _mapper.Map<ProductDto>(newProduct));
         }
 
+        [ValidationFilter]
+        [ServiceFilter(typeof(ProductNotFoundFilter))]        
         [HttpPut]
-        public IActionResult Update(ProductDto productDto)
+        public IActionResult Update(UpdateProductDto updateProductDto)
         {
-            _productService.Update(_mapper.Map<Product>(productDto));
+            _productService.Update(_mapper.Map<Product>(updateProductDto));
 
             return NoContent();
         }
 
         [ServiceFilter(typeof(ProductNotFoundFilter))]
         [HttpDelete]
-        public IActionResult Remove(int id)
+        public IActionResult Remove(long id)
         {
             var product = _productService.GetByIdAsync(id).Result;
             _productService.Remove(product);

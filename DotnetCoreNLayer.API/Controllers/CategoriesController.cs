@@ -33,7 +33,7 @@ namespace DotnetCoreNLayer.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById(long id)
         {
             var category = await _categoryService.GetByIdAsync(id);
 
@@ -41,7 +41,7 @@ namespace DotnetCoreNLayer.API.Controllers
         }
 
         [HttpGet("{id}/products")]
-        public async Task<IActionResult> GetWithProductsById(int id)
+        public async Task<IActionResult> GetWithProductsById(long id)
         {
             var category = await _categoryService.GetWithProductsByIdAsync(id);
 
@@ -65,7 +65,7 @@ namespace DotnetCoreNLayer.API.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Remove(int id)
+        public IActionResult Remove(long id)
         {
             var category = _categoryService.GetByIdAsync(id).Result;
             _categoryService.Remove(category);

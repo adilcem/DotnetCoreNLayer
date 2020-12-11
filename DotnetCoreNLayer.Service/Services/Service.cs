@@ -1,4 +1,5 @@
-﻿using DotnetCoreNLayer.Core.Repositories;
+﻿using DotnetCoreNLayer.Core.Models;
+using DotnetCoreNLayer.Core.Repositories;
 using DotnetCoreNLayer.Core.Services;
 using DotnetCoreNLayer.Core.UnitOfWork;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DotnetCoreNLayer.Service.Services
 {
-    public class Service<TEntity> : IService<TEntity> where TEntity : class
+    public class Service<TEntity> : IService<TEntity> where TEntity : BaseClass
     {
         public readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<TEntity> _repository;
@@ -45,7 +46,7 @@ namespace DotnetCoreNLayer.Service.Services
             return await _repository.GetAllAsync();
         }
 
-        public async Task<TEntity> GetByIdAsync(int id)
+        public async Task<TEntity> GetByIdAsync(long id)
         {
             return await _repository.GetByIdAsync(id);
         }
