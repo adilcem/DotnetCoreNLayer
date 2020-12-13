@@ -52,6 +52,7 @@ namespace DotnetCoreNLayer.API.Controllers
         }
 
         [ValidationFilter]
+        [ServiceFilter(typeof(CategoryNotFoundFilter))] // For foreign key check
         [HttpPost]
         public async Task<IActionResult> Save(ProductDto productDto)
         {

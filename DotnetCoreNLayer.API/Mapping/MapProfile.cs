@@ -17,6 +17,8 @@ namespace DotnetCoreNLayer.API.Mapping
             //Category Entity
             CreateMap<Category, CategoryDto>();
             CreateMap<CategoryDto, Category>();
+            CreateMap<Category, UpdateCategoryDto>();
+            CreateMap<UpdateCategoryDto, Category>();
             CreateMap<Category, CategoryWithProductDto>();
             CreateMap<CategoryWithProductDto, Category>();
             

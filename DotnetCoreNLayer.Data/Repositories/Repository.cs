@@ -37,7 +37,7 @@ namespace DotnetCoreNLayer.Data.Repositories
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            return await _dbSet.ToListAsync();
+            return await _dbSet.AsNoTracking().ToListAsync();
         }
 
         public async Task<TEntity> GetByIdAsync(long id)
@@ -57,7 +57,7 @@ namespace DotnetCoreNLayer.Data.Repositories
 
         public async Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await _dbSet.SingleOrDefaultAsync(predicate);
+            return await _dbSet.AsNoTracking().SingleOrDefaultAsync(predicate);
         }
 
         public TEntity Update(TEntity entity)

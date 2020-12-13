@@ -58,6 +58,7 @@ namespace DotnetCoreNLayer.API
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ProductNotFoundFilter>();
+            services.AddScoped<CategoryNotFoundFilter>();
 
             services.AddControllers();
             // Validation filters can be used globally with the code below

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DotnetCoreNLayer.API.DTO.Category;
+using DotnetCoreNLayer.API.Filters;
 using DotnetCoreNLayer.Core.Models;
 using DotnetCoreNLayer.Core.Services;
 using Microsoft.AspNetCore.Http;
@@ -32,6 +33,7 @@ namespace DotnetCoreNLayer.API.Controllers
             return Ok(_mapper.Map<IEnumerable<CategoryDto>>(categories));
         }
 
+        [ServiceFilter(typeof(CategoryNotFoundFilter))]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(long id)
         {
@@ -40,6 +42,7 @@ namespace DotnetCoreNLayer.API.Controllers
             return Ok(_mapper.Map<CategoryDto>(category));
         }
 
+        [ServiceFilter(typeof(CategoryNotFoundFilter))]
         [HttpGet("{id}/products")]
         public async Task<IActionResult> GetWithProductsById(long id)
         {
@@ -48,6 +51,7 @@ namespace DotnetCoreNLayer.API.Controllers
             return Ok(_mapper.Map<CategoryWithProductDto>(category));
         }
 
+        [ValidationFilter]
         [HttpPost]
         public async Task<IActionResult> Save(CategoryDto categoryDto)
         {
@@ -56,14 +60,17 @@ namespace DotnetCoreNLayer.API.Controllers
             return Created(string.Empty, _mapper.Map<CategoryDto>(newCategory));
         }
 
+        [ValidationFilter]
+        [ServiceFilter(typeof(CategoryNotFoundFilter))]
         [HttpPut]
-        public IActionResult Update(CategoryDto categoryDto)
+        public IActionResult Update(UpdateCategoryDto updateCategoryDto)
         {
-            _categoryService.Update(_mapper.Map<Category>(categoryDto));
+           _categoryService.Update(_mapper.Map<Category>(updateCategoryDto));
 
             return NoContent();
         }
 
+        [ServiceFilter(typeof(CategoryNotFoundFilter))]
         [HttpDelete]
         public IActionResult Remove(long id)
         {

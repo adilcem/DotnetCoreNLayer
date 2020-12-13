@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace DotnetCoreNLayer.API.DTO.Category
 {
     public class CategoryDto
-    {
-        public long Id { get; set; }
-        [Required]
+    {                
+        public virtual long Id { get; set; }
+        [Required(ErrorMessage = "{0} field is required")]
         public string Name { get; set; }
     }
 }

@@ -15,10 +15,11 @@ namespace DotnetCoreNLayer.API.Filters
         {
             if(!context.ModelState.IsValid)
             {
-                ErrorDto errorDto = new ErrorDto();
-
-                //Bad request for client
-                errorDto.Status = 400;
+                ErrorDto errorDto = new ErrorDto
+                {
+                    //Bad request for client
+                    Status = 400
+                };
                 IEnumerable<ModelError> modelErrors = context.ModelState.Values.SelectMany(v => v.Errors);
 
                 modelErrors.ToList().ForEach(x =>

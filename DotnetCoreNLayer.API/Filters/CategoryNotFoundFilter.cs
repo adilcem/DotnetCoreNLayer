@@ -1,7 +1,5 @@
 ﻿using DotnetCoreNLayer.API.DTO.Error;
-using DotnetCoreNLayer.Core.Models;
 using DotnetCoreNLayer.Core.Services;
-using DotnetCoreNLayer.Service.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
@@ -12,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace DotnetCoreNLayer.API.Filters
 {
-    public class ProductNotFoundFilter : ActionFilterAttribute
+    public class CategoryNotFoundFilter : ActionFilterAttribute
     {
-        private readonly IProductService _productService;
-        public ProductNotFoundFilter(IProductService productService)
+        private readonly ICategoryService _caregoryService;
+        public CategoryNotFoundFilter(ICategoryService caregoryService)
         {
-            _productService = productService;
+            _caregoryService = caregoryService;
         }
 
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -30,14 +28,16 @@ namespace DotnetCoreNLayer.API.Filters
             Type dataType = parameterValue.GetType();
             IList<PropertyInfo> props = new List<PropertyInfo>(dataType.GetProperties());
 
-            // If parameterValue is an object, find Id column in that object and get its value. Otherwise Id will be parameterValue
-            long Id = props.Count > 0 
-                ? (long)props.Where(p => p.Name == "Id").FirstOrDefault().GetValue(parameterValue, null)
+            // If parameterValue is an object, first find CategoryId (for foreign key), if not found then find Id column in that object and get its value. Otherwise Id will be parameterValue
+            long Id = props.Count > 0
+                ? props.Any(p => p.Name == "CategoryId")
+                ? (long)props.Where(p => p.Name == "CategoryId").FirstOrDefault().GetValue(parameterValue, null)
+                : (long)props.Where(p => p.Name == "Id").FirstOrDefault().GetValue(parameterValue, null)
                 : (long)parameterValue;
 
-            var product = await _productService.SingleOrDefaultAsync(x => x.Id == Id);
+            var category = await _caregoryService.SingleOrDefaultAsync(x => x.Id == Id);
 
-            if (product is not null)
+            if (category is not null)
             {
                 //If Id found, keep searching
                 await next();
@@ -48,7 +48,7 @@ namespace DotnetCoreNLayer.API.Filters
                 {
                     Status = 404
                 };
-                errorDto.Errors.Add($"Cannot find the product with Id: {Id} ");
+                errorDto.Errors.Add($"Cannot find the category with Id: {Id} ");
 
                 context.Result = new NotFoundObjectResult(errorDto);
             }
