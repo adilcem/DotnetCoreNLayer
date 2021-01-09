@@ -25,7 +25,7 @@ namespace DotnetCoreNLayer.Data
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
             modelBuilder.ApplyConfiguration(new CategorySeed(new int[] { 1, 2 }));
 
-            modelBuilder.ApplyConfiguration(new ProductConfiguration());
+            modelBuilder.ApplyConfiguration(new PersonConfiguration());
         }
     }
 }
