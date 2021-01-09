@@ -30,9 +30,11 @@ namespace DotnetCoreNLayer.API.Filters
             Type dataType = parameterValue.GetType();
             IList<PropertyInfo> props = new List<PropertyInfo>(dataType.GetProperties());
 
-            // If parameterValue is an object, find Id column in that object and get its value. Otherwise Id will be parameterValue
-            long Id = props.Count > 0 
-                ? (long)props.Where(p => p.Name == "Id").FirstOrDefault().GetValue(parameterValue, null)
+            // If parameterValue is an object, first find ProductId (for foreign key), if not found then find Id column in that object and get its value. Otherwise Id will be parameterValue
+            long Id = props.Count > 0
+                ? props.Any(p => p.Name == "ProductId")
+                ? (long)props.Where(p => p.Name == "ProductId").FirstOrDefault().GetValue(parameterValue, null)
+                : (long)props.Where(p => p.Name == "Id").FirstOrDefault().GetValue(parameterValue, null)
                 : (long)parameterValue;
 
             var product = await _productService.SingleOrDefaultAsync(x => x.Id == Id);
